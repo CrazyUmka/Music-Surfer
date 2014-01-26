@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.pictureBoxImageTrack = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +49,9 @@
             this.labelTimeTrack = new System.Windows.Forms.Label();
             this.labelNameTrack = new System.Windows.Forms.Label();
             this.timerTrack = new System.Windows.Forms.Timer(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImageTrack)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRepeat)).BeginInit();
@@ -72,11 +76,27 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 424);
+            this.statusStrip1.AllowMerge = false;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 467);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(564, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(113, 17);
+            this.toolStripStatusLabel1.Text = "Download Status: 0/";
             // 
             // menuStrip1
             // 
@@ -150,11 +170,12 @@
             this.listPlaylistView.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.listPlaylistView.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listPlaylistView.Location = new System.Drawing.Point(0, 122);
+            this.listPlaylistView.MultiSelect = false;
             this.listPlaylistView.Name = "listPlaylistView";
-            this.listPlaylistView.Size = new System.Drawing.Size(564, 299);
+            this.listPlaylistView.Size = new System.Drawing.Size(564, 342);
             this.listPlaylistView.TabIndex = 9;
             this.listPlaylistView.UseCompatibleStateImageBehavior = false;
-            this.listPlaylistView.View = System.Windows.Forms.View.List;
+            this.listPlaylistView.View = System.Windows.Forms.View.Tile;
             this.listPlaylistView.SelectedIndexChanged += new System.EventHandler(this.listPlaylistView_SelectedIndexChanged);
             // 
             // pictureBoxPlay
@@ -177,6 +198,7 @@
             this.pictureBoxPrev.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPrev.TabIndex = 11;
             this.pictureBoxPrev.TabStop = false;
+            this.pictureBoxPrev.Click += new System.EventHandler(this.pictureBoxPrev_Click);
             // 
             // pictureBoxNext
             // 
@@ -187,6 +209,7 @@
             this.pictureBoxNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxNext.TabIndex = 12;
             this.pictureBoxNext.TabStop = false;
+            this.pictureBoxNext.Click += new System.EventHandler(this.pictureBoxNext_Click);
             // 
             // labelTimeTrack
             // 
@@ -213,14 +236,21 @@
             this.timerTrack.Interval = 1000;
             this.timerTrack.Tick += new System.EventHandler(this.timerTrack_Tick);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Music Surfer";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(564, 446);
+            this.ClientSize = new System.Drawing.Size(564, 489);
             this.Controls.Add(this.labelNameTrack);
             this.Controls.Add(this.labelTimeTrack);
             this.Controls.Add(this.pictureBoxNext);
@@ -241,8 +271,10 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Opacity = 0.95D;
-            this.Text = "MusicSurfer";
+            this.Text = "Music Surfer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImageTrack)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
@@ -275,6 +307,9 @@
         private System.Windows.Forms.Label labelTimeTrack;
         private System.Windows.Forms.Label labelNameTrack;
         private System.Windows.Forms.Timer timerTrack;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 
