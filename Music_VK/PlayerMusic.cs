@@ -11,27 +11,9 @@ namespace Music_VK
     class PlayerMusic
     {
         Hashtable[] audio_vk;
-        int move_music_list = 0;
         public PlayerMusic(Hashtable[] data_audio)
         {
             audio_vk = data_audio;
-        }
-        private string create_time_remain()
-        {
-            int minute = 0;
-            int seconds = 0;
-            int time_remain = Convert.ToInt32(audio_vk[move_music_list]["duration"]);
-            for (int i = 0; i < time_remain; i++)
-            {
-                if (time_remain > 60)
-                    minute++;
-                else
-                { break; }
-                time_remain -= 60;
-            }
-            minute *= -1;
-            seconds = time_remain;
-            return (minute.ToString() + "." + time_remain);
         }
 
         public bool play(bool bRepeat, int index_song)
@@ -74,6 +56,11 @@ namespace Music_VK
                 Player.GetPlayer().Play(bRepeat);
                 return false;
             }
+        }
+
+        public bool Playing_Song()
+        {
+            return Player.GetPlayer().IsPlaying();
         }
     }
 }
