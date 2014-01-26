@@ -50,6 +50,10 @@
             this.labelNameTrack = new System.Windows.Forms.Label();
             this.timerTrack = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImageTrack)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -79,7 +83,9 @@
             this.statusStrip1.AllowMerge = false;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3});
             this.statusStrip1.Location = new System.Drawing.Point(0, 467);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(564, 22);
@@ -95,8 +101,8 @@
             // 
             this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(113, 17);
-            this.toolStripStatusLabel1.Text = "Download Status: 0/";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(99, 17);
+            this.toolStripStatusLabel1.Text = "Download Status:";
             // 
             // menuStrip1
             // 
@@ -112,6 +118,9 @@
             // 
             // menuToolStripMenuItem
             // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
+            this.downloadToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -168,6 +177,7 @@
             // listPlaylistView
             // 
             this.listPlaylistView.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.listPlaylistView.CheckBoxes = true;
             this.listPlaylistView.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listPlaylistView.Location = new System.Drawing.Point(0, 122);
             this.listPlaylistView.MultiSelect = false;
@@ -175,7 +185,7 @@
             this.listPlaylistView.Size = new System.Drawing.Size(564, 342);
             this.listPlaylistView.TabIndex = 9;
             this.listPlaylistView.UseCompatibleStateImageBehavior = false;
-            this.listPlaylistView.View = System.Windows.Forms.View.Tile;
+            this.listPlaylistView.View = System.Windows.Forms.View.List;
             this.listPlaylistView.SelectedIndexChanged += new System.EventHandler(this.listPlaylistView_SelectedIndexChanged);
             // 
             // pictureBoxPlay
@@ -244,6 +254,31 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
+            // downloadToolStripMenuItem
+            // 
+            this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.downloadToolStripMenuItem.Text = "Download";
+            this.downloadToolStripMenuItem.Click += new System.EventHandler(this.downloadToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 17);
+            this.toolStripStatusLabel2.Text = "0";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(0, 17);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -310,6 +345,10 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
     }
 }
 

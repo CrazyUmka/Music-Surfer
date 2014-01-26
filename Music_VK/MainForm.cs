@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using System.Net;
+using System.IO;
 
 namespace Music_VK
 {
@@ -20,6 +22,8 @@ namespace Music_VK
         private int seconds = 0;
         private int minute = 0;
         private int iTimePassed = 0;
+        string folder_path = @"D:\Temp_Library\";
+
         public MainForm()
         {
             InitializeComponent();
@@ -49,24 +53,42 @@ namespace Music_VK
             else
                 labelTimeTrack.Text = "0" + minute.ToString() + "." + seconds.ToString();
         }
+        private void download_music(string name_song, string url)
+        {
+            int record_file = 0;
+            var filename = folder_path + name_song + ".mp3";
+            // Делаем загрузку с помощью System.Net.WebClient.
+            var webClient = new WebClient();
+            var beforeProgress = 0; // счетчик прогресса
+
+            // подписываемся на событие изменения прогресса, чтобы выводить на экран
+            webClient.DownloadProgressChanged += (s, e) =>
+               {
+                   // ну и выводим соответственно через каждые 10%
+                   if (e.ProgressPercentage - 10 > beforeProgress)
+                   {
+                       beforeProgress += 10;
+                       toolStripProgressBar1.Value = beforeProgress;
+                   }
+               };
+
+            // подписываемся на событие окончания загрузки, чтобы знать когда загрузка закончится
+            webClient.DownloadFileCompleted += (s, e) =>
+            {
+                record_file++;
+                toolStripProgressBar1.Value += 10;
+                toolStripStatusLabel2.Text = record_file.ToString();
+                toolStripProgressBar1.Value = 0;
+            };
+
+            // запускаем загрузку асинхронно.
+            webClient.DownloadFileAsync(new Uri(url), filename);
+        }
         #endregion
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LibVk current_user_vk = new LibVk("21881340", "80d1ddbc6532da5ed954ae37a11c938ec8fe971b74b86a7bc72bd280985cb7d7fa4bda6a6bacde2eed557");
-            data_audio = current_user_vk.audio_get();
-            music_vk = new PlayerMusic(data_audio);
-            int number_element = 0;
-            foreach (var element in data_audio)
-            {
-                if (element != null)
-                {
-                    number_element++;
-                    listPlaylistView.Items.Add(number_element.ToString() + ". " + element["artist"].ToString() + " - " + element["title"].ToString());
-                }
-            }
-            toolStripStatusLabel1.Text += number_element.ToString();
-            number_element = 0;
+            
         }
         private void listPlaylistView_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -151,7 +173,7 @@ namespace Music_VK
         private void pictureBoxPrev_Click(object sender, EventArgs e)
         {
             clean_data();
-            if (listPlaylistView.FocusedItem.Index - 1 != -1)            
+            if (listPlaylistView.FocusedItem.Index - 1 != -1)
                 listPlaylistView.FocusedItem = listPlaylistView.Items[listPlaylistView.FocusedItem.Index - 1];
             else
                 listPlaylistView.FocusedItem = listPlaylistView.Items[listPlaylistView.Items.Count - 1];
@@ -162,6 +184,39 @@ namespace Music_VK
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
 
+        }
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count_download = 0;
+            LibVk current_user_vk = new LibVk("21881340", "80d1ddbc6532da5ed954ae37a11c938ec8fe971b74b86a7bc72bd280985cb7d7fa4bda6a6bacde2eed557");
+            data_audio = current_user_vk.audio_get();
+            music_vk = new PlayerMusic(data_audio);
+            int number_element = 0;
+            foreach (var element in data_audio)
+            {
+                if (element != null)
+                {
+                    number_element++;
+                    string name_song = number_element.ToString() + ". " + element["artist"].ToString() + " - " + element["title"].ToString();
+                    listPlaylistView.Items.Add(name_song);
+                    if (File.Exists(folder_path + name_song + ".mp3") == true)
+                        count_download++;
+
+                }
+            }
+            toolStripStatusLabel2.Text = count_download.ToString();
+            toolStripStatusLabel3.Text = ": " + number_element.ToString();
+            number_element = 0;
+        }
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < listPlaylistView.CheckedItems.Count; i++)
+            {
+                string name = listPlaylistView.CheckedItems[i].Text;
+                if (File.Exists(folder_path + name + ".mp3") == false)
+                    download_music(name, data_audio[listPlaylistView.CheckedItems[i].Index]["url"].ToString());
+            }
         }
     }
 }
