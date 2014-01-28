@@ -16,7 +16,6 @@ namespace Music_VK
     public partial class MainForm : Form
     {
         #region Fields
-        private Hashtable[] data_audio;
         PlayerMusic music_vk;
         bool bRepeat = false;
         bool bMixPlay = false;
@@ -39,7 +38,7 @@ namespace Music_VK
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
-                notifyIcon1.Visible = true;
+                notifyIconMainForm.Visible = true;
             }
             else
             {
@@ -49,7 +48,7 @@ namespace Music_VK
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            notifyIcon1.Visible = false;
+            notifyIconMainForm.Visible = false;
         }
         #endregion
 
@@ -80,10 +79,20 @@ namespace Music_VK
                 labelTimeTrack.Text = "0" + minute.ToString() + "." + seconds.ToString();
         }
 
+        private string correct_file_rec(string name_file)
+        {
+            if(name_file.IndexOf("?") != -1)
+                name_file = name_file.Replace("?", "");
+            if (name_file.IndexOf("/") != -1)
+                name_file = name_file.Replace("/", "-");
+            if (name_file.IndexOf('"') != -1)
+                name_file = name_file.Replace('"', ' ');
+            return name_file;
+        }
+
         private void download_music(string name_song, string url)
         {
-            int record_file = 0;
-            var filename = folder_path + name_song + ".mp3";
+            var filename = correct_file_rec(folder_path + name_song + ".mp3");
             // Делаем загрузку с помощью System.Net.WebClient.
             var webClient = new WebClient();
             var beforeProgress = 0; // счетчик прогресса
@@ -95,17 +104,16 @@ namespace Music_VK
                    if (e.ProgressPercentage - 10 > beforeProgress)
                    {
                        beforeProgress += 10;
-                       toolStripProgressBar1.Value = beforeProgress;
                    }
                };
 
             // подписываемся на событие окончания загрузки, чтобы знать когда загрузка закончится
             webClient.DownloadFileCompleted += (s, e) =>
             {
-                record_file++;
-                toolStripProgressBar1.Value += 10;
-                toolStripStatusLabel2.Text = record_file.ToString();
-                toolStripProgressBar1.Value = 0;
+                toolStripProgressBar1.Value += 1;
+                notifyIconMainForm.BalloonTipTitle = "Status Download: " + toolStripProgressBar1.Value.ToString() + "/" + toolStripProgressBar1.Maximum.ToString();
+                notifyIconMainForm.BalloonTipText = "File downloaded";
+                notifyIconMainForm.ShowBalloonTip(1000);
             };
 
             // запускаем загрузку асинхронно.
@@ -117,12 +125,12 @@ namespace Music_VK
             bool status_player;
             int index_song;
 
-            if (listPlaylistView.FocusedItem.Text.Length > 40)
-                labelNameTrack.Text = listPlaylistView.FocusedItem.Text.Substring(0, 40) + "...";
+            if (listPlaylistView.FocusedItem.Text.Length > 35)
+                labelNameTrack.Text = listPlaylistView.FocusedItem.Text.Substring(0, 35) + "...";
             else
                 labelNameTrack.Text = listPlaylistView.FocusedItem.Text;
             index_song = listPlaylistView.FocusedItem.Index;
-            progressBarTrack.Maximum = Convert.ToInt32(data_audio[index_song]["duration"]);
+            progressBarTrack.Maximum = Convert.ToInt32(music_vk.duration_song(index_song));
             status_player = music_vk.play(bRepeat, index_song);
             if (status_player == true)
                 timerTrack.Start();
@@ -158,6 +166,7 @@ namespace Music_VK
                 init_song();
             }
         }
+
         private void pictureBoxPlay_Click(object sender, EventArgs e)
         {
             bool status_player = music_vk.pause(bRepeat);
@@ -194,15 +203,15 @@ namespace Music_VK
             if (bRepeat == false)
             {
                 bRepeat = true;
-                notifyIcon1.BalloonTipText = "Repeat ON";
+                notifyIconMainForm.BalloonTipText = "Repeat ON";
             }
             else
             {
                 bRepeat = false;
-                notifyIcon1.BalloonTipText = "Repeat OFF";
+                notifyIconMainForm.BalloonTipText = "Repeat OFF";
             }
             music_vk.repeat_song(bRepeat);
-            notifyIcon1.ShowBalloonTip(1000);
+            notifyIconMainForm.ShowBalloonTip(1000);
         }
 
         private void pictureBoxMix_Click(object sender, EventArgs e)
@@ -217,7 +226,7 @@ namespace Music_VK
         {
             int count_download = 0;
             LibVk current_user_vk = new LibVk("21881340", "80d1ddbc6532da5ed954ae37a11c938ec8fe971b74b86a7bc72bd280985cb7d7fa4bda6a6bacde2eed557");
-            data_audio = current_user_vk.audio_get();
+            var data_audio = current_user_vk.audio_get();
             music_vk = new PlayerMusic(data_audio);
             int number_element = 0;
             foreach (var element in data_audio)
@@ -227,26 +236,31 @@ namespace Music_VK
                     number_element++;
                     string name_song = number_element.ToString() + ". " + element["artist"].ToString() + " - " + element["title"].ToString();
                     listPlaylistView.Items.Add(name_song);
-                    if (File.Exists(folder_path + name_song + ".mp3") == true)
+                    if (File.Exists(correct_file_rec(folder_path + name_song + ".mp3")) == true)
                         count_download++;
 
                 }
             }
-            toolStripStatusLabel2.Text = count_download.ToString();
-            toolStripStatusLabel3.Text = ": " + number_element.ToString();
+            toolStripStatusLabelDownload.Text += " " + count_download.ToString() + "/" + number_element.ToString();
             number_element = 0;
         }
 
         private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            toolStripProgressBar1.Maximum = listPlaylistView.CheckedItems.Count;
             for (int i = 0; i < listPlaylistView.CheckedItems.Count; i++)
             {
                 string name = listPlaylistView.CheckedItems[i].Text;
                 if (File.Exists(folder_path + name + ".mp3") == false)
-                    download_music(name, data_audio[listPlaylistView.CheckedItems[i].Index]["url"].ToString());
+                    download_music(name, music_vk.url_song(listPlaylistView.CheckedItems[i].Index).ToString());
                 else
-                    MessageBox.Show("File " + name + "downloaded");
+                {
+                    toolStripProgressBar1.Value++;
+                    notifyIconMainForm.BalloonTipText = "File " + name + " already exists in the directory";
+                    notifyIconMainForm.ShowBalloonTip(1000);
+                }
             }
+
         }
         #endregion
 

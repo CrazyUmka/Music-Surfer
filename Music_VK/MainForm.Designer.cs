@@ -31,13 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.pictureBoxImageTrack = new System.Windows.Forms.PictureBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuMainForm = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,16 +48,19 @@
             this.labelTimeTrack = new System.Windows.Forms.Label();
             this.labelNameTrack = new System.Windows.Forms.Label();
             this.timerTrack = new System.Windows.Forms.Timer(this.components);
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconMainForm = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabelDownload = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStripMainForm = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImageTrack)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.menuMainForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPrev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNext)).BeginInit();
+            this.statusStripMainForm.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxImageTrack
@@ -79,65 +76,17 @@
             this.pictureBoxImageTrack.TabIndex = 0;
             this.pictureBoxImageTrack.TabStop = false;
             // 
-            // statusStrip1
+            // menuMainForm
             // 
-            this.statusStrip1.AllowMerge = false;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1,
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2,
-            this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 467);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(564, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(99, 17);
-            this.toolStripStatusLabel1.Text = "Download Status:";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 17);
-            this.toolStripStatusLabel2.Text = "0";
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(564, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuMainForm.Location = new System.Drawing.Point(0, 0);
+            this.menuMainForm.Name = "menuMainForm";
+            this.menuMainForm.Size = new System.Drawing.Size(564, 24);
+            this.menuMainForm.TabIndex = 4;
+            this.menuMainForm.Text = "menuStrip1";
             // 
             // menuToolStripMenuItem
             // 
@@ -151,14 +100,14 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // downloadToolStripMenuItem
             // 
             this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.downloadToolStripMenuItem.Text = "Download";
             this.downloadToolStripMenuItem.Click += new System.EventHandler(this.downloadToolStripMenuItem_Click);
             // 
@@ -282,15 +231,40 @@
             this.timerTrack.Interval = 1000;
             this.timerTrack.Tick += new System.EventHandler(this.timerTrack_Tick);
             // 
-            // notifyIcon1
+            // notifyIconMainForm
             // 
-            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.BalloonTipTitle = "Status";
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Music Surfer";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.notifyIconMainForm.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIconMainForm.BalloonTipTitle = "s";
+            this.notifyIconMainForm.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconMainForm.Icon")));
+            this.notifyIconMainForm.Text = "Music Surfer";
+            this.notifyIconMainForm.Visible = true;
+            this.notifyIconMainForm.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            this.notifyIconMainForm.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStripStatusLabelDownload
+            // 
+            this.toolStripStatusLabelDownload.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripStatusLabelDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatusLabelDownload.Name = "toolStripStatusLabelDownload";
+            this.toolStripStatusLabelDownload.Size = new System.Drawing.Size(99, 17);
+            this.toolStripStatusLabelDownload.Text = "Download Status:";
+            // 
+            // statusStripMainForm
+            // 
+            this.statusStripMainForm.AllowMerge = false;
+            this.statusStripMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabelDownload});
+            this.statusStripMainForm.Location = new System.Drawing.Point(0, 467);
+            this.statusStripMainForm.Name = "statusStripMainForm";
+            this.statusStripMainForm.Size = new System.Drawing.Size(564, 22);
+            this.statusStripMainForm.TabIndex = 1;
+            this.statusStripMainForm.Text = "statusStrip1";
             // 
             // MainForm
             // 
@@ -309,13 +283,13 @@
             this.Controls.Add(this.pictureBoxRepeat);
             this.Controls.Add(this.progressBarTrack);
             this.Controls.Add(this.trackBarVolume);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusStripMainForm);
+            this.Controls.Add(this.menuMainForm);
             this.Controls.Add(this.pictureBoxImageTrack);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.menuMainForm;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Opacity = 0.95D;
@@ -323,16 +297,16 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImageTrack)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuMainForm.ResumeLayout(false);
+            this.menuMainForm.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRepeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPrev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNext)).EndInit();
+            this.statusStripMainForm.ResumeLayout(false);
+            this.statusStripMainForm.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -341,8 +315,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxImageTrack;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuMainForm;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -357,14 +330,12 @@
         private System.Windows.Forms.Label labelTimeTrack;
         private System.Windows.Forms.Label labelNameTrack;
         private System.Windows.Forms.Timer timerTrack;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.NotifyIcon notifyIconMainForm;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelDownload;
+        private System.Windows.Forms.StatusStrip statusStripMainForm;
     }
 }
 
