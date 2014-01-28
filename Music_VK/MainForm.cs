@@ -15,6 +15,8 @@ namespace Music_VK
 {
     public partial class MainForm : Form
     {
+        #region Fields
+        FormWindowState formerState;
         private Hashtable[] data_audio;
         PlayerMusic music_vk;
         bool bRepeat = false;
@@ -23,13 +25,41 @@ namespace Music_VK
         private int minute = 0;
         private int iTimePassed = 0;
         string folder_path = @"D:\Temp_Library\";
+        #endregion
 
+        #region Init Form
         public MainForm()
         {
             InitializeComponent();
         }
+        #endregion
+
+        #region Events Forms
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                formerState = this.WindowState;
+            }
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                notifyIcon1.Visible = true;
+            }
+            else
+            {
+                this.ShowInTaskbar = true;
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            notifyIcon1.Visible = false;
+        }
+        #endregion
 
         #region My_Func
+
         private void clean_data()
         {
             minute = 0;
@@ -40,6 +70,7 @@ namespace Music_VK
             iTimePassed = 0;
             labelTimeTrack.Text = "00.00";
         }
+
         private void forming_time_passed()
         {
             seconds++;
@@ -53,6 +84,7 @@ namespace Music_VK
             else
                 labelTimeTrack.Text = "0" + minute.ToString() + "." + seconds.ToString();
         }
+
         private void download_music(string name_song, string url)
         {
             int record_file = 0;
@@ -84,22 +116,6 @@ namespace Music_VK
             // запускаем загрузку асинхронно.
             webClient.DownloadFileAsync(new Uri(url), filename);
         }
-        #endregion
-
-        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
-        private void listPlaylistView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            clean_data();
-            music_vk.stop();
-
-            if (listPlaylistView.FocusedItem != null)
-            {
-                init_song();
-            }
-        }
 
         private void init_song()
         {
@@ -117,21 +133,18 @@ namespace Music_VK
                 timerTrack.Start();
         }
 
-        private void pictureBoxRepeat_Click(object sender, EventArgs e)
-        {
-            if (bRepeat == false)
-                bRepeat = true;
-            else
-                bRepeat = false;
-            music_vk.repeat_song(bRepeat);
-        }
+        #endregion
 
-        private void pictureBoxMix_Click(object sender, EventArgs e)
+        #region Elements Form
+        private void listPlaylistView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (bMixPlay == false)
-                bMixPlay = true;
-            else
-                bMixPlay = false;
+            clean_data();
+            music_vk.stop();
+
+            if (listPlaylistView.FocusedItem != null)
+            {
+                init_song();
+            }
         }
 
         private void timerTrack_Tick(object sender, EventArgs e)
@@ -181,10 +194,23 @@ namespace Music_VK
             init_song();
         }
 
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        private void pictureBoxRepeat_Click(object sender, EventArgs e)
         {
-
+            if (bRepeat == false)
+                bRepeat = true;
+            else
+                bRepeat = false;
+            music_vk.repeat_song(bRepeat);
         }
+
+        private void pictureBoxMix_Click(object sender, EventArgs e)
+        {
+            if (bMixPlay == false)
+                bMixPlay = true;
+            else
+                bMixPlay = false;
+        }
+
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count_download = 0;
@@ -216,7 +242,32 @@ namespace Music_VK
                 string name = listPlaylistView.CheckedItems[i].Text;
                 if (File.Exists(folder_path + name + ".mp3") == false)
                     download_music(name, data_audio[listPlaylistView.CheckedItems[i].Index]["url"].ToString());
+                else
+                    MessageBox.Show("File " + name + "downloaded");
             }
         }
+        #endregion
+
+        #region Work Notification Icon
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = formerState;
+                this.ShowInTaskbar = true;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowInTaskbar = false;
+            }
+            this.Activate();
+        }
+        #endregion
     }
 }
