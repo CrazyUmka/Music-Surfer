@@ -16,7 +16,6 @@ namespace Music_VK
     public partial class MainForm : Form
     {
         #region Fields
-        FormWindowState formerState;
         private Hashtable[] data_audio;
         PlayerMusic music_vk;
         bool bRepeat = false;
@@ -37,10 +36,6 @@ namespace Music_VK
         #region Events Forms
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState != FormWindowState.Minimized)
-            {
-                formerState = this.WindowState;
-            }
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
@@ -197,10 +192,17 @@ namespace Music_VK
         private void pictureBoxRepeat_Click(object sender, EventArgs e)
         {
             if (bRepeat == false)
+            {
                 bRepeat = true;
+                notifyIcon1.BalloonTipText = "Repeat ON";
+            }
             else
+            {
                 bRepeat = false;
+                notifyIcon1.BalloonTipText = "Repeat OFF";
+            }
             music_vk.repeat_song(bRepeat);
+            notifyIcon1.ShowBalloonTip(1000);
         }
 
         private void pictureBoxMix_Click(object sender, EventArgs e)
@@ -258,7 +260,7 @@ namespace Music_VK
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = formerState;
+                this.WindowState = FormWindowState.Normal;
                 this.ShowInTaskbar = true;
             }
             else
