@@ -10,10 +10,20 @@ namespace Music_VK
 {
     class PlayerMusic
     {
-        Hashtable[] audio_vk;
+        private Hashtable[] audio_vk;
         public PlayerMusic(Hashtable[] data_audio)
         {
             audio_vk = data_audio;
+        }
+
+        public string duration_song(int index_song)
+        {
+            return audio_vk[index_song]["duration"].ToString();
+        }
+
+        public object url_song(int index_song)
+        {
+            return audio_vk[index_song]["url"];
         }
 
         public bool play(bool bRepeat, int index_song)
