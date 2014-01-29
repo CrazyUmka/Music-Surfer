@@ -100,14 +100,14 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // downloadToolStripMenuItem
             // 
             this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.downloadToolStripMenuItem.Text = "Download";
             this.downloadToolStripMenuItem.Click += new System.EventHandler(this.downloadToolStripMenuItem_Click);
             // 
@@ -234,7 +234,7 @@
             // notifyIconMainForm
             // 
             this.notifyIconMainForm.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIconMainForm.BalloonTipTitle = "s";
+            this.notifyIconMainForm.BalloonTipTitle = "Status";
             this.notifyIconMainForm.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconMainForm.Icon")));
             this.notifyIconMainForm.Text = "Music Surfer";
             this.notifyIconMainForm.Visible = true;
